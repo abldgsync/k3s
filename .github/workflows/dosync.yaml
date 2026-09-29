@@ -1,0 +1,35 @@
+name: Do Tools Sync For Abldg
+
+# 共享同步逻辑位于公共(Public)仓库 .sacts/sync_k3s.yaml(组合 action,已钉 commit SHA)
+on:
+  # schedule:
+  #   - cron: '0 2 10 * *'  # 每月10号凌晨2点自动执行(已屏蔽,不再定时执行)
+  workflow_dispatch:
+    inputs:
+      binvern:
+        description: '指定 K3s 版本号(如 v1.31.0+k3s1,不填则使用最新稳定版)'
+        required: false
+        type: string
+      withairgap:
+        description: '包含离线镜像包 airgap images,取值(=0|1),默认 1'
+        required: false
+        type: int
+        default: 1
+
+permissions:
+  contents: write
+
+concurrency:
+  group: full-sync
+  cancel-in-progress: false
+
+jobs:
+  sync_binaries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: 同步 K3s 二进制
+        uses: abldgsync/.sacts/sync_k3s@main
+        with:
+          binvern: ${{ inputs.binvern }}
+          withairgap: ${{ inputs.withairgap }}
