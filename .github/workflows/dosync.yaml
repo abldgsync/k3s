@@ -10,11 +10,6 @@ on:
         description: '指定 K3s 版本号(如 v1.31.0+k3s1,不填则使用最新稳定版)'
         required: false
         type: string
-      withairgap:
-        description: '包含离线镜像包 airgap images,取值(=0|1),默认 1'
-        required: false
-        type: int
-        default: 1
 
 permissions:
   contents: write
@@ -32,4 +27,3 @@ jobs:
         uses: abldgsync/.sacts/sync_k3s@main
         with:
           binvern: ${{ inputs.binvern }}
-          withairgap: ${{ inputs.withairgap }}
