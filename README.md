@@ -4,7 +4,7 @@
 
 ## 工作原理
 
-同步流程由 `.github/workflows/dosync.yaml` 定义,核心步骤如下:
+同步流程由本仓库 `.github/workflows/dosync.yaml` 触发,实际同步逻辑实现于共享组合 Action `abldgsync/actions/k3s`(其 `dosync.sh` 按 `CS=1~4` 阶段执行);本仓库工作流仅负责调用与传参。核心步骤如下:
 
 1. **解析版本列表并生成下载清单**
    - **不指定版本(默认)**:拉取全部 release。GitHub `/releases` 默认按创建时间倒序返回,直接取**前四个稳定版本**(已自然对应最新的四个系列),逐个同步。
